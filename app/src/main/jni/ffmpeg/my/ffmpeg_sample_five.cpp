@@ -232,6 +232,8 @@ static int get_format_from_sample_fmt(const char **fmt,
     return -1;
 }
 
+// Demuxers read a media file and split it into chunks of data (packets)
+// 分割视频数据,  提取视频数据 和 音频数据
 char *demuxing_decoding(char **argv) {
     int ret = 0, got_frame;
 

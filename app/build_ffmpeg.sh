@@ -3,10 +3,10 @@
  exit
 
 # 执行 FFmpeg 源码项目中的编译脚本
-sh /Users/whensunset/AndroidStudioProjects/KSVideoProject/ffmpeg/build_android.sh
+# sh /Users/whensunset/AndroidStudioProjects/KSVideoProject/ffmpeg/build_android.sh
 
-# 当前项目的 so 文件的存放目录，需要改成自己的
-so_path="/Users/whensunset/AndroidStudioProjects/KSVideoProject/FFmpeglearning/app/src/main/jni/ffmpeg/armeabi/"
+# 当前项目的 so 文件的存放目录，
+so_path="./src/main/jni/ffmpeg/armeabi/"
 
 # 所有 so 文件编译生成后的默认命名
 libavcodec_name="libavcodec-57.so"

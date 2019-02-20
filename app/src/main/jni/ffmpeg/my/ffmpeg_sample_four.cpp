@@ -218,6 +218,7 @@ display_frame(const AVFrame *frame, AVRational time_base, JNIEnv *env, jobject i
     fflush(stdout);
 }
 
+// 给视频加滤镜
 int filter_video(char **argv, JNIEnv *env, jobject instance) {
     int ret;
     AVPacket packet;
@@ -240,10 +241,11 @@ int filter_video(char **argv, JNIEnv *env, jobject instance) {
         goto end;
 
     /* read all packets */
-    while (1) {
+    while (1) {  // 不断提取 packet
         if ((ret = av_read_frame(fmt_ctx, &packet)) < 0)
             break;
 
+        //视频流
         if (packet.stream_index == video_stream_index) {
             ret = avcodec_send_packet(dec_ctx, &packet);
             if (ret < 0) {
@@ -263,8 +265,7 @@ int filter_video(char **argv, JNIEnv *env, jobject instance) {
                 frame->pts = frame->best_effort_timestamp;
 
                 /* push the decoded frame into the filtergraph */
-                if (av_buffersrc_add_frame_flags(buffersrc_ctx, frame, AV_BUFFERSRC_FLAG_KEEP_REF) <
-                    0) {
+                if (av_buffersrc_add_frame_flags(buffersrc_ctx, frame, AV_BUFFERSRC_FLAG_KEEP_REF) < 0) {
                     av_log(NULL, AV_LOG_ERROR, "Error while feeding the filtergraph\n");
                     break;
                 }

@@ -40,7 +40,7 @@ android {
 task build_ffmpeg {
     doLast {
         exec {
-            commandLine 'sh', '/Users/whensunset/AndroidStudioProjects/KSVideoProject/FFmpeglearning/app/build_ffmpeg.sh'
+            commandLine 'sh', './build_ffmpeg.sh'
         }
     }
 }

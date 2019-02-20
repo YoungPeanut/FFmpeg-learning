@@ -59,6 +59,7 @@ static int encode(AVCodecContext *enc_ctx, AVFrame *frame, AVPacket *pkt,
     return 0;
 }
 
+// 编码生成一个1秒的mp4视频
 char *encode_video(char **argv) {
     const char *filename;
     const AVCodec *codec;
@@ -88,6 +89,7 @@ char *encode_video(char **argv) {
         goto end;
     }
 
+    //压缩帧
     pkt = av_packet_alloc();
     if (!pkt) {
         ret = -1113;
@@ -95,13 +97,13 @@ char *encode_video(char **argv) {
     }
 
     /* put sample parameters */
-    c->bit_rate = 400000;
+    c->bit_rate = 400000;   // 比特率 = 采样率 * 量化格式
     /* resolution must be a multiple of two */
     c->width = 352;
     c->height = 288;
     /* frames per second */
-    c->time_base = (AVRational) {1, 25};
-    c->framerate = (AVRational) {25, 1};
+    c->time_base = (AVRational) {1, 25};  //时间单位
+    c->framerate = (AVRational) {25, 1};  // 帧率
 
     /* emit one intra frame every ten frames
      * check frame pict_type before passing frame
@@ -109,9 +111,9 @@ char *encode_video(char **argv) {
      * then gop_size is ignored and the output of encoder
      * will always be I frame irrespective to gop_size
      */
-    c->gop_size = 10;
-    c->max_b_frames = 1;
-    c->pix_fmt = AV_PIX_FMT_YUV420P;
+    c->gop_size = 10;  // 帧组
+    c->max_b_frames = 1;   // B帧上限
+    c->pix_fmt = AV_PIX_FMT_YUV420P;  // 像素格式
 
     if (codec->id == AV_CODEC_ID_H264)
         av_opt_set(c->priv_data, "preset", "slow", 0);
@@ -144,7 +146,8 @@ char *encode_video(char **argv) {
         goto end;
     }
 
-    /* encode 1 second of video */
+    // 编码一个 352 * 288的视频
+    /* encode 1 second of video ， 25 帧 */
     for (i = 0; i < 25; i++) {
         fflush(stdout);
 
